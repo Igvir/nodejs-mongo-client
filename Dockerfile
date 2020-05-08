@@ -33,5 +33,7 @@ RUN npm --verbose install
 #Show version
 RUN node --version 
 
-##### start
-### RUN npm start
+##### Entrypoint
+RUN echo "======= Defining entry point ========"
+ENTRYPOINT ["npm","start"]
+

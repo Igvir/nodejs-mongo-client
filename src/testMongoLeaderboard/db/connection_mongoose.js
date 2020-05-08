@@ -7,8 +7,9 @@ const  mongoose = require('mongoose');
 const DB_LEADERBOARD="leaderboard_db"; //DB Name
 //database url
 const uri = `mongodb+srv://club:club2020$@cluster0-94p7i.mongodb.net/${DB_LEADERBOARD}?retryWrites=true&w=majority`;
+const localMongo=`mongodb://172.18.0.2:27017/${DB_LEADERBOARD}`;
 
-    mongoose.connect(`${uri}`, {
+    mongoose.connect(`${localMongo}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
