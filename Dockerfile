@@ -32,6 +32,9 @@ RUN npm --verbose install
 
 #Show version
 RUN node --version 
+##
+
+EXPOSE 3000
 
 ##### Entrypoint
 RUN echo "======= Defining entry point ========"
