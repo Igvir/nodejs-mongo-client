@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true })); // para usar POST con Content-T
 app.use(express.static(__dirname + '/public')); //serving statics files like css, js, images
 app.use(express.static('./static/'));
 
-app.use('/service/ghost', require('./routes/ghost'));
+//app.use('/service/ghost', require('./routes/ghost'));
 
 app.use('/api/ranking', require('./routes/ranking'));
 
