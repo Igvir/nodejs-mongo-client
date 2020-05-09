@@ -22,19 +22,18 @@ COPY --chown=node:node  ./src/testMongoLeaderboard/mongo_schemas/* ./mongo_schem
 COPY --chown=node:node  ./src/testMongoLeaderboard/static/* ./static/
 COPY --chown=node:node  ./src/testMongoLeaderboard/validations/* ./validations/
 
-#
-RUN ls -al -r
-
-#
-RUN npm --version
 # npm install
 RUN npm --verbose install 
 
 #Show version
 RUN node --version 
+
+
+ARG MONGO_SERVER=rankingDB
+ARG SERVER_PORT=3000
 ##
 
-EXPOSE 3000
+EXPOSE $SERVER_PORT
 
 ##### Entrypoint
 RUN echo "======= Defining entry point ========"
