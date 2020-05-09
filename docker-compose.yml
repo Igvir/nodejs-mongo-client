@@ -1,0 +1,19 @@
+version: '3.0'
+services:
+  server:
+    image: igvir/nodejs-mongo-client
+    container_name: serverRanking
+    networks:
+      - ranking-net
+    depends_on:
+      - db
+
+  db:
+    container_name: rankingDB
+    image: mongo
+    networks:
+      - ranking-net
+
+networks:
+  ranking-net:
+ 
