@@ -7,10 +7,16 @@ services:
       - ranking-net
     depends_on:
       - db
-
+    links:
+      - db
   db:
     container_name: rankingDB
-    image: mongo
+    image: registry.access.redhat.com/rhscl/mongodb-36-rhel7 
+    environment:
+      MONGODB_ADMIN_PASSWORD: "ranking-1234Admin"
+      MONGODB_USER: ""
+      MONGODB_PASSWORD: ""
+      MONGODB_DATABASE: "leaderboard_db"
     networks:
       - ranking-net
 
