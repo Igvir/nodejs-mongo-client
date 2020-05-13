@@ -1,21 +1,24 @@
 version: '3.0'
 services:
   server:
-    image: igvir/nodejs-mongo-client:v0.0.6-beta
+    image: "igvir/nodejs-mongo-client:v0.0.6-beta"
     container_name: serverRanking
     networks:
       - ranking-net
     environment:
-      DB_HOST = "db"
-      ##DB_PORT =
-      DB_USERNAME = "dbUser"
-      DB_PASSWORD = "dbUser7890pwd"
-      DB_TYPE = mongodb
-      DB_NAME = leaderboard_db
+      DB_HOST: "db"
+      DB_USERNAME: "dbUser"
+      DB_PASSWORD: "dbUser7890pwd"
+      DB_TYPE: "mongodb"
+      DB_NAME: "leaderboard_db"
+      AWS_ACCESS_KEY_ID: "AKIAQKYKOMXARCTZNFHS"
+      AWS_SECRET_ACCESS_KEY: "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"
+      AWS_REGION: "us-west-2"
     depends_on:
       - db
     links:
       - db
+
   db:
     container_name: rankingDB
     image: registry.access.redhat.com/rhscl/mongodb-36-rhel7 
