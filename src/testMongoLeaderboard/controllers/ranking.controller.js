@@ -11,65 +11,68 @@
   //const mongodb=require('../db/concention_atlas_db');
 
 
-  const mongoose=require('../db/connection_mongoose');
-  const LeaderboardSchema=require('../mongo_schemas/leaderboard.schema');
+const LeaderboardSchema = require('../mongo_schemas/leaderboard.schema');
+const RankingHelper = require('../helpers/ranking.helper');
+const AWS = require('aws-sdk');
 
-//Ranking function
- const ranking={
-    get:(req,res)=>{
+const lambda = new AWS.Lambda({
+    apiVersion: '2015-03-31',
+    region: process.env.AWS_DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+const ranking = {
+    get: async(req,res)=>{
         try{
-            return LeaderboardSchema.find({createdate: { $gte: req.query.startDate, $lte: req.query.endDate }}, 
-                function (err, resDB) {
-                    if(err){
-                        res.json({Error: err});
-                    } else {
-                        res.json({result: resDB});
-                    }
-              });
-        } catch (error){
-            res.json({Error: err});
-        }
-        
- }, post:async(req,res)=>{
+            const response = await(RankingHelper
+                .getDataForRanking(req.query.startDate, req.query.endDate));
+            const payload = {"logs": response};
+            const params = {
+                'FunctionName': 'scoreLeaderboard',
+                'Payload': JSON.stringify(payload)
+            }
+            
+            const lambdaResponse = await lambda.invoke(params).promise();
+
+            res.json({result: JSON.parse(lambdaResponse.Payload)});
+        } catch (err){
+            res.json({result: err});
+        } 
+    }, 
+    post: async(req,res)=>{
         console.log('POST Leaderboard');  
         try {
             const dataToSave=req.body.data;
-            /*const secondDataToSave = dataToSave;
-            let data = [];
-            data.push(dataToSave);
-            data.push(secondDataToSave);*/
-            //const db=mongoose.connection;    
-            
-            //const leaderboard= new LeaderboardSchema(dataToSave);
-            
-            //console.log(`Collection name: ${leaderboard.collection.collectionName}`);
-
-            // await leaderboard.save((err,leaderboard)=>{
-            //     if(err) throw err;
-            //     console.log(`fishingsessionid ${leaderboard.fishingsessionid} was saved to database`);
-            // });
-            await LeaderboardSchema.insertMany(dataToSave, function(error, docs) {
+            await LeaderboardSchema.insertMany(dataToSave, function(error) {
                 if(error){
                     console.log(error);
                 } else{
-                    console.log("Insert perfect");
+                    console.log("Insert Correctly");
                 }
             })
-            
-            
-
-          //aqui hariamos el insert a la base de datos
-           //mongoDbConex.insertOne(req.body.data);
         } catch (error) {
             console.error(error);
         }finally{
-            console.log("Finally executed");
             let jsonResponse=req.body.data;
             res.json(jsonResponse); 
         }
-
-
- }
+    },
+    delete: async(req, res) => {
+        console.log("DELETE ALL -- DEV PURPOSES");
+        try{
+            await LeaderboardSchema.deleteMany({}, function(error, resDB){
+                if(error){
+                    console.log(error);
+                } else {
+                    res.json({Result: resDB}); 
+                    console.log("Delete all the leaderboard collections");
+                }
+            })
+        } catch(error){
+            res.json({Error: error}); 
+        }
+    }
 };
 
  module.exports = ranking;

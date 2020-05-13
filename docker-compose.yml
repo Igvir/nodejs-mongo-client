@@ -1,10 +1,17 @@
 version: '3.0'
 services:
   server:
-    image: igvir/nodejs-mongo-client
+    image: igvir/nodejs-mongo-client:v0.0.6-beta
     container_name: serverRanking
     networks:
       - ranking-net
+    environment:
+      DB_HOST = "db"
+      ##DB_PORT =
+      DB_USERNAME = "dbUser"
+      DB_PASSWORD = "dbUser7890pwd"
+      DB_TYPE = mongodb
+      DB_NAME = leaderboard_db
     depends_on:
       - db
     links:
@@ -14,8 +21,8 @@ services:
     image: registry.access.redhat.com/rhscl/mongodb-36-rhel7 
     environment:
       MONGODB_ADMIN_PASSWORD: "ranking-1234Admin"
-      MONGODB_USER: ""
-      MONGODB_PASSWORD: ""
+      MONGODB_USER: "dbUser"
+      MONGODB_PASSWORD: "dbUser7890pwd"
       MONGODB_DATABASE: "leaderboard_db"
     networks:
       - ranking-net
