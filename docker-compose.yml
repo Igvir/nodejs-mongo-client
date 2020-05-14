@@ -11,8 +11,8 @@ services:
       DB_PASSWORD: "dbUser7890pwd"
       DB_TYPE: "mongodb"
       DB_NAME: "leaderboard_db"
-      AWS_ACCESS_KEY_ID: "AKIAQKYKOMXARCTZNFHS"
-      AWS_SECRET_ACCESS_KEY: "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"
+      AWS_ACCESS_KEY_ID: "A"
+      AWS_SECRET_ACCESS_KEY: ""
       AWS_REGION: "us-west-2"
     depends_on:
       - db
