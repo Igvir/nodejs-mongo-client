@@ -23,10 +23,8 @@ const connectDB = async () => {
     console.log(`Trying to connect to ${DB_TYPE}`);
     console.log(`The uri you are using have: 
     USER: ${DB_USERNAME}, 
-    PWD: ${DB_PASSWORD}, 
     PORT: ${DB_PORT},
-    AUTH SOURCE: ${DB_WITHUSERCREDENTIALS}
-    URI: ${localDB}`);
+    AUTH SOURCE: ${DB_WITHUSERCREDENTIALS}`);
     const connect = await mongoose.connect(`${localDB}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
