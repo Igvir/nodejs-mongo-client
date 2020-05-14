@@ -8,11 +8,11 @@ services:
     environment:
       DB_HOST: "db"
       DB_USERNAME: "dbUser"
-      DB_PASSWORD: "dbUser7890pwd"
+      DB_PASSWORD: /run/secrets/db_pwd
       DB_TYPE: "mongodb"
       DB_NAME: "leaderboard_db"
-      AWS_ACCESS_KEY_ID: "A"
-      AWS_SECRET_ACCESS_KEY: ""
+      AWS_ACCESS_KEY_ID: /run/secrets/aws_id
+      AWS_SECRET_ACCESS_KEY: /run/secrets/aws_key
       AWS_REGION: "us-west-2"
     secrets:
       - db_pwd
@@ -27,12 +27,13 @@ services:
     container_name: rankingDB
     image: registry.access.redhat.com/rhscl/mongodb-36-rhel7 
     environment:
-      MONGODB_ADMIN_PASSWORD: "ranking-1234Admin"
+      MONGODB_ADMIN_PASSWORD: /run/secret/db_admin_pwd
       MONGODB_USER: "dbUser"
-      MONGODB_PASSWORD: "dbUser7890pwd"
+      MONGODB_PASSWORD: /run/secret/db_pwd
       MONGODB_DATABASE: "leaderboard_db"
     secrets:
-      - db_admin_pwd      
+      - db_admin_pwd
+      - db_pwd      
     networks:
       - ranking-net
 
