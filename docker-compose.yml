@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.1'
 services:
   server:
     image: "igvir/nodejs-mongo-client:v0.0.6-beta"
@@ -14,6 +14,10 @@ services:
       AWS_ACCESS_KEY_ID: "A"
       AWS_SECRET_ACCESS_KEY: ""
       AWS_REGION: "us-west-2"
+    secrets:
+      - db_pwd
+      - aws_id
+      - aws_key      
     depends_on:
       - db
     links:
@@ -27,9 +31,22 @@ services:
       MONGODB_USER: "dbUser"
       MONGODB_PASSWORD: "dbUser7890pwd"
       MONGODB_DATABASE: "leaderboard_db"
+    secrets:
+      - db_admin_pwd      
     networks:
       - ranking-net
 
 networks:
   ranking-net:
- 
+
+          
+secrets: 
+  db_pwd:
+      file: ./db_pwd.ignore.txt
+  db_admin_pwd:
+      file: ./db_admin_pwd.ignore.txt    
+  aws_id:
+      file: ./aws_id.ignore.txt
+  aws_key:
+      file: ./aws_key.ignore.txt
+
