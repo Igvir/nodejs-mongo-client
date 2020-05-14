@@ -8,6 +8,7 @@ const config = {
             password: process.env.DB_PASSWORD || 'pass1234',
             type: process.env.DB_TYPE || 'mongodb',
             name: process.env.DB_NAME || 'leaderboard_db',
+            dbWithUserCredentials: process.env.DB_WITHUSERCREDENTIALS || 'admin',
         },
         server: {
             host: process.env.HOST || '127.0.0.1',
